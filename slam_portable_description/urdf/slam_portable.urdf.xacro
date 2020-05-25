@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+<robot name = "charge_station_xacro" xmlns:xacro = "http://www.ros.org/wiki/xacro">
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+
+  <!-- include VLP-16 lidar -->
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />
+
+  <!-- base link -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://slam_portable_description/mesh/pnm-v1-urdf.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.3 0.3 0.3 1.0" />
+      </material>
+    </visual>
+  </link>
+
+  <!-- IMU link -->
+  <link name="imu_link" />
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="0.009 -0.04 0.085" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <!-- GPS link -->
+  <link name="gps_link" />
+  <joint name="gps_joint" type="fixed">
+    <origin xyz="0.01385 0.05725 0.127" rpy="0 0 ${-M_PI/2}" />
+    <parent link="base_link"/>
+    <child link="gps_link"/>
+  </joint>
+
+  <!-- Camera link -->
+  <link name="camera" />
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.0475 -0.012 0.10" rpy="${-M_PI/2} -0.06 -1.555" />
+    <parent link="base_link"/>
+    <child link="camera"/>
+  </joint>
+
+  <!-- VLP-16 link -->
+  <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" hz="10" lasers="16" samples="1875" collision_range="0.3" min_range="0.9" max_range="130.0" noise="0.008" min_angle="-${M_PI}" max_angle="${M_PI}" gpu="false">
+    <origin xyz="0.014 -0.012 0.127" rpy="0 0 0"/>
+  </xacro:VLP-16>
+</robot>

@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<launch>
+  <arg name="log_type" default="screen"/>
+
+  <include file="$(find slam_portable_description)/launch/include/upload.launch.xml">
+    <arg name="log_type" value="$(arg log_type)" />
+  </include>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_portable_viz)/viz/model.rviz" />
+</launch>

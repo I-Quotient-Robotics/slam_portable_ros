@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="log_type" default="screen"/>
+
+  <include file="$(find slam_portable_description)/launch/include/upload.launch.xml">
+    <arg name="log_type" value="$(arg log_type)" />
+  </include>
+
+  <include file="$(find slam_portable_base)/launch/include/base.launch.xml">
+    <arg name="log_type" value="$(arg log_type)" />
+  </include>
+
+  <include file="$(find slam_portable_base)/launch/hdl_graph_slam/hdl_graph_slam_outdoor.launch.xml" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_portable_viz)/viz/view.rviz" output="$(arg log_type)" />
+</launch>

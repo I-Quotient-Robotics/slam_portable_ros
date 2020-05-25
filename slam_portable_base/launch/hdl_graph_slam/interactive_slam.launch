@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="log_type" default="screen"/>
+
+  <node name="interactive_slam" pkg="interactive_slam" type="interactive_slam" output="$(arg log_type)" />
+</launch>
